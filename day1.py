@@ -26,7 +26,20 @@ list3 = []
 for number in range(len(list1)):
     result = list1[number] - list2[number]
     list3.append(abs(result))
-print(list3)
 
 total_result = sum(list3)
-print(total_result)
+print("distance between location IDs: ", total_result)
+
+"Part 2"
+
+list4 = []
+for number in range(len(list1)):
+    if list1[number] not in list4:
+        list4.append(list1[number])
+
+list5 = []
+for number2 in list4:
+    ID_count = list2.count(number2)
+    similarity_score = number2 * ID_count
+    list5.append(abs(similarity_score))
+print("similarity score of location IDs:", sum(list5))
