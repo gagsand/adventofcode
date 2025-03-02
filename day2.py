@@ -10,25 +10,23 @@ with open('list3.txt', 'r') as file:
     safe_count = 0
 
     # create a for loop so that assess all the levels within all the reports of the data
+
+    def is_safe(report):
+        increasing = all(report[i] <= report[i + 1] and 1 <= abs(report[i] - report[i+1]) <= 3
+                         for i in range(len(report)-1))
+        decreasing = all(report[i] >= report[i + 1] and 1 <= abs(report[i] - report[i+1]) <= 3
+                         for i in range(len(report)-1))
+        return increasing or decreasing
+
+    def is_safe_with_exception(report):
+        for i in range(len(report)):
+            modified_report = report[:i] + report[i+1:]
+            if is_safe(modified_report):
+                return True
+        return False
+
     for report in data:
-
-        # the next three lines are to define variables that are acceptable. these variables determine whether the report is safe or unsafe
-        decreasing = all(report[i] > report[i + 1]
-                         for i in range(len(report)-1))
-        increasing = all(report[i] < report[i + 1]
-                         for i in range(len(report)-1))
-        valid_difference = all(
-            1 <= abs(report[i] - report[i + 1]) <= 3 for i in range(len(report) - 1))
-
-        valid_change = decreasing or increasing
-
-        # if valid_change:
-        #     safe_count += 1
-
-        # if valid_difference:
-        #     safe_count += 1
-
-        if valid_change and valid_difference:
+        if is_safe(report) or is_safe_with_exception(report):
             safe_count += 1
 
     print(safe_count)
